@@ -56,7 +56,6 @@ fun BottomNavigationBar(selectedTab: Int, onTabSelected: (Int) -> Unit) {
         containerColor = MaterialTheme.colorScheme.surface,
         tonalElevation = 4.dp
     ) {
-        // Home Tab
         NavigationBarItem(
             selected = selectedTab == 0,
             onClick = { onTabSelected(0) },
@@ -64,7 +63,7 @@ fun BottomNavigationBar(selectedTab: Int, onTabSelected: (Int) -> Unit) {
                 Icon(
                     imageVector = FontAwesomeIcons.Solid.Home,
                     contentDescription = "Home",
-                    modifier = Modifier.size(24.dp) // Icon size
+                    modifier = Modifier.size(24.dp)
                 )
             },
             label = {
@@ -81,7 +80,6 @@ fun BottomNavigationBar(selectedTab: Int, onTabSelected: (Int) -> Unit) {
             )
         )
 
-        // Settings Tab
         NavigationBarItem(
             selected = selectedTab == 1,
             onClick = { onTabSelected(1) },
@@ -106,7 +104,6 @@ fun BottomNavigationBar(selectedTab: Int, onTabSelected: (Int) -> Unit) {
             )
         )
 
-        // Profile Tab
         NavigationBarItem(
             selected = selectedTab == 2,
             onClick = { onTabSelected(2) },
@@ -156,18 +153,5 @@ fun SettingsScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Settings Screen", style = MaterialTheme.typography.titleLarge)
-    }
-}
-
-@Composable
-fun ProfileScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Profile Screen", style = MaterialTheme.typography.titleLarge)
     }
 }

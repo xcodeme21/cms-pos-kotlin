@@ -67,7 +67,6 @@ fun LoginView(modifier: Modifier = Modifier, viewModel: LoginViewModel = remembe
             value = viewModel.username,
             onValueChange = {
                 viewModel.username = it
-                Log.d("LoginView", "Email changed: $it")
             },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
