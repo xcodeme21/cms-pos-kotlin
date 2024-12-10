@@ -2,6 +2,7 @@ package com.example.cmspos.service
 
 import android.util.Log
 import com.example.cmspos.model.Auth
+import com.example.cmspos.model.AuthLogout
 import com.example.cmspos.model.LoginResponse
 import com.example.cmspos.model.LoginOutput
 import com.example.cmspos.retrofit.AuthApi
@@ -40,8 +41,23 @@ class AuthService {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body()?.data != null) {
                     val userOutput = response.body()?.data
-                    Log.d("LoginResponse", "UserOutput: $userOutput")
                     onResult(true, null, userOutput)
+                } else {
+                    onResult(false, response.body()?.error_message ?: "Login failed.", null)
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                onResult(false, t.message, null)
+            }
+        })
+    }
+
+    fun logout(user: AuthLogout, onResult: (Boolean, String?, LoginOutput?) -> Unit) {
+        authApi.logout(user).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (response.isSuccessful && response.body()?.error_message != null) {
+                    onResult(true, null, null)
                 } else {
                     onResult(false, response.body()?.error_message ?: "Login failed.", null)
                 }

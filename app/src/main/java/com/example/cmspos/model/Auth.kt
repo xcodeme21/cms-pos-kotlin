@@ -18,3 +18,7 @@ data class LoginOutput(
     val refresh_token: String,
     val refresh_expired_in: Number
 )
+
+data class AuthLogout(
+    val refresh_token: String?,
+)

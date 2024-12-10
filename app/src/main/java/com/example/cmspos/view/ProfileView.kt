@@ -1,5 +1,7 @@
 package com.example.cmspos.view
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,12 +12,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
+import com.example.cmspos.viewmodel.LogoutViewModel
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import com.example.cmspos.MainActivity
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(viewModel: LogoutViewModel = remember { LogoutViewModel() }) {
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel.errorMessage) {
+        if (viewModel.errorMessage.isNotEmpty()) {
+            Toast.makeText(context, "Error: ${viewModel.errorMessage}", Toast.LENGTH_LONG).show()
+            viewModel.errorMessage = ""
+        }
+    }
+
+    LaunchedEffect(viewModel.isSuccessLogout) {
+        if (viewModel.isSuccessLogout) {
+            val intent = Intent(context, MainActivity::class.java)
+            Toast.makeText(context, "Logout berhasil", Toast.LENGTH_LONG).show()
+            context.startActivity(intent)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +75,7 @@ fun ProfileScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* Aksi tombol logout */ },
+            onClick = { viewModel.onLogoutClick() },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
             modifier = Modifier.fillMaxWidth()
         ) {
